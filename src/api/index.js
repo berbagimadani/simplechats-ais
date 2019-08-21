@@ -1,5 +1,6 @@
-const route = require('express').Router()
-const glob = require('glob')
+const route = require('express').Router();
+const glob = require('glob');
+const passport = require('passport');
 
 // some options
 options = {
@@ -16,8 +17,12 @@ forFiles = function(err,files){
 const performSomething = (item) => {
   var file = item.split('.').slice(0, -1).join('.');
   var filename = item.split("routes/").pop().split('.').slice(0, -1).join('.');
-  console.log(file+' '+filename)
-  route.use('/'+filename, require('./'+file))
+  
+  if(filename == 'auth') { 
+    route.use('/'+filename, require('./'+file))
+  } else {
+    route.use('/'+filename, passport.authenticate('jwt', { session: false}), require('./'+file))
+  }
 }
 // glob it.
 glob('**/*.js', options, forFiles);
