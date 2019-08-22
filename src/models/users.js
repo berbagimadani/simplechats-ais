@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       field: 'updated_at'
     }
   },
-
   /*{ 
   getterMethods: {
     name: function() {
@@ -31,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   },*/
-
   { 
     hooks: {
       /*beforeValidate: function(user, options) {
@@ -52,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   users.prototype.comparePassword = function (passw, cb) {
     bcrypt.compare(passw, this.password, function (err, isMatch) {
         if (err) {
-            return cb(err);
+          return cb(err);
         }
         cb(null, isMatch);
     });

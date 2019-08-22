@@ -5,16 +5,6 @@ const User = require('../../models').users;
 
 route.get('/all', async (req, res) => {
   
-  /*try { 
-    users.findAll().then(users => { 
-      return res.status(HttpStatus.CREATED).json(users); 
-    })
-  } catch (e) {
-    e.status = HttpStatus.BAD_REQUEST;
-    return next(e);
-  }*/
-  //validateToken(req.headers, res);
-
   let page = req.query.page || 1;
   let offset = 0;
   if (page > 1) {
@@ -25,13 +15,13 @@ route.get('/all', async (req, res) => {
     offset: offset,
     order: [['id', 'DESC']],
   }).then((users) => { 
-      const totalPage = Math.ceil(users.count / 5);
-      const pagination = { totalPage: totalPage, currentPage: parseInt(page) };
-      return res.status(HttpStatus.CREATED).json({
-        users,
-        pagination: pagination
-      }); 
-  });
+    const totalPage = Math.ceil(users.count / 5);
+    const pagination = { totalPage: totalPage, currentPage: parseInt(page) };
+    res.status(HttpStatus.OK).json({
+      users,
+      pagination: pagination
+    }); 
+  }).catch((error) => { res.status(400).send(error); });
 
 })
 

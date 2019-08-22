@@ -2,11 +2,12 @@ const route = require('express').Router();
 const HttpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const middleware = require('../../middlewares/middleware');
 require('../../config/passport')(passport);
 
 const User = require('../../models').users;   
 const UserSchema = require('../../validations/users');
-const middleware = require('../../middlewares/middleware');
+
 
 route.post('/login', async (req, res) => {
   User.findOne({
@@ -22,7 +23,7 @@ route.post('/login', async (req, res) => {
       }
       user.comparePassword(req.body.password, (err, isMatch) => {
         if(isMatch && !err) {
-          var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 3600});
+          var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 8600});
           jwt.verify(token, 'nodeauthsecret', function(err, data){
             console.log(err, data);
           })
