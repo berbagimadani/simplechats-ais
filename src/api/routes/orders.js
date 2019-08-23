@@ -4,7 +4,6 @@ const HttpStatus = require('http-status-codes');
 const middleware = require('../../middlewares/middleware');
 //const validateToken = require('../../utils/validateToken.js');
 //require('../../config/passport')(passport);
-
 const Order = require('../../models').orders;
 const OrderDetail = require('../../models').order_details;
 const Customer = require('../../models').customers;
@@ -42,8 +41,34 @@ route.get('/all', async function (req, res) {
 route.post('/add',
   middleware(OrderSchema.POST), async (req, res, next) => {
   //console.log(req.body.customer)
+  var sequelize = Order.sequelize;
+  let transaction;
+
   try { 
+    /*await sequelize.transaction(function(t){
+      console.log('transaction openned'+t);
+    });*/
+    transaction = await sequelize.transaction();
     
+    await Order.create({
+      customer_id: 1,
+      order_details: [
+         { name: 'nice property'},
+         { name: 'ugly property'}
+      ]
+      },{
+        include: [ OrderDetail ],
+        transaction
+    }).then((order) => 
+      res.status(HttpStatus.CREATED).json(order) 
+    );
+    
+
+    //await Order.create({ customer_id: 1, },  {transaction})
+    //await OrderDetail.create({ name: 'aaa', },  {transaction})
+
+    await transaction.commit();
+
     /*const products = JSON.parse(req.body.product_ids) 
     const map_products = products.map(Id => {
       return Object.assign( 
@@ -69,27 +94,10 @@ route.post('/add',
     )
     .catch((error) => { 
       res.status(400).send(error);
-    });*/
+    });*/ 
 
-    /*sequelize.transaction(function(t) {
-      
-      return Order.create({customer_id:1}, {transaction: t}).then(function(owner){ 
-          return owner.setOrder_details([{name:'nice property'}, {name:'ugly property'}], {transaction : t});
-      });
-
-    });*/
-    
-    Order.create({
-      customer_id: 1,
-      order_details: [
-         { name: 'nice property'},
-         { name: 'ugly property'}
-      ]
-      },{
-        include: [ OrderDetail ]
-    });
-  
   } catch (e) {
+    if (e) await transaction.rollback();
     e.status = HttpStatus.BAD_REQUEST;
     next(e);
   }
