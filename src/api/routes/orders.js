@@ -1,11 +1,12 @@
 const route = require('express').Router();
 const HttpStatus = require('http-status-codes');
-const passport = require('passport');
+//const passport = require('passport');
 const middleware = require('../../middlewares/middleware');
 //const validateToken = require('../../utils/validateToken.js');
-require('../../config/passport')(passport);
+//require('../../config/passport')(passport);
 
-const Order = require('../../models').orders;   
+const Order = require('../../models').orders;
+const OrderDetail = require('../../models').order_details;
 const Customer = require('../../models').customers;
 const OrderSchema = require('../../validations/orders');
 
@@ -29,48 +30,69 @@ route.get('/all', async function (req, res) {
           customers: order.customer
         }
       )
-    });
+    })
     res.status(HttpStatus.OK).json(resObj)
+  }).catch((error) => { 
+    res.status(400).send(error);
   });
+  
 
 })
 
 route.post('/add',
-  middleware(OrderSchema.POST), async (req, res) => {
+  middleware(OrderSchema.POST), async (req, res, next) => {
   //console.log(req.body.customer)
   try { 
+    
+    /*const products = JSON.parse(req.body.product_ids) 
+    const map_products = products.map(Id => {
+      return Object.assign( 
+        {
+          product_id: Id
+        }
+      )
+    });
+     /*OrderDetail.bulkCreate(map_products)
+      .then(newOwners => {
+        res.json(newOwners);
+      })*/
+
     /*
     Order
     .create({ 
       customer_id: req.body.customer
     })
-    .then((order) => res.status(HttpStatus.CREATED).json(order) )
+    .then((order) => 
+
+
+      res.status(HttpStatus.CREATED).json(order) 
+    )
     .catch((error) => { 
       res.status(400).send(error);
     });*/
 
-    const owners = [  
-      {
-        invoice_number: "1",
-        customer_id: "2"
-      },
-      {
-        invoice_number: "13",
-        customer_id: "3"
-      },
-    ];
+    /*sequelize.transaction(function(t) {
+      
+      return Order.create({customer_id:1}, {transaction: t}).then(function(owner){ 
+          return owner.setOrder_details([{name:'nice property'}, {name:'ugly property'}], {transaction : t});
+      });
 
-    //const ownerList = req.body.owners;
-    Order.bulkCreate(owners)
-    .then(newOwners => {
-      res.json(newOwners);
-    })
+    });*/
     
+    Order.create({
+      customer_id: 1,
+      order_details: [
+         { name: 'nice property'},
+         { name: 'ugly property'}
+      ]
+      },{
+        include: [ OrderDetail ]
+    });
+  
   } catch (e) {
     e.status = HttpStatus.BAD_REQUEST;
     next(e);
   }
 })
-
 
 module.exports = route

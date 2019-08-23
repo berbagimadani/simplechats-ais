@@ -23,7 +23,7 @@ route.post('/login', async (req, res) => {
       }
       user.comparePassword(req.body.password, (err, isMatch) => {
         if(isMatch && !err) {
-          var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 8600});
+          var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 8600 * 30 });
           jwt.verify(token, 'nodeauthsecret', function(err, data){
             console.log(err, data);
           })
