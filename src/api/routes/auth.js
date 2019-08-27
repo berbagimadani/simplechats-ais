@@ -7,6 +7,17 @@ require('../../config/passport')(passport);
 
 const User = require('../../models').users;   
 const UserSchema = require('../../validations/users');
+const UserToken = require('../../models').user_tokens;   
+
+function isIdUnique(id) {
+  return UserToken.count({ where: { user_id: id } })
+    .then(count => {
+      if (count != 0) {
+        return false;
+      }
+      return true;
+  });
+}
 
 
 route.post('/login', async (req, res) => {
@@ -23,14 +34,29 @@ route.post('/login', async (req, res) => {
       }
       user.comparePassword(req.body.password, (err, isMatch) => {
         if(isMatch && !err) {
-          var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: 8600 * 30 });
+          var expired = 8600 * 30;
+          var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: expired });
           jwt.verify(token, 'nodeauthsecret', function(err, data){
             console.log(err, data);
           })
-          res.json({success: true, token: 'JWT ' + token});
-          
-          //res.json({success: true});
-          
+
+          console.log('JWT ' + token);
+          // insert or update log token user login
+          var user_id = user.id; 
+          isIdUnique(user_id).then(isUnique => {
+            if (isUnique) {
+              UserToken.create({user_id: user_id, token: 'JWT ' + token, expired: expired });
+            } else {
+              UserToken.update({ 
+                token: token,
+                expired: expired
+              }, {
+                where: {user_id: user_id}
+              }) 
+            }
+          });
+
+          res.json({success: true, token: 'JWT ' + token});          
         } else {
           res.status(HttpStatus.UNAUTHORIZED).send({success: false, msg: 'Authentication failed. Wrong password.'});
         }

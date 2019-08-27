@@ -1,6 +1,7 @@
 const route = require('express').Router();
 const glob = require('glob');
 const passport = require('passport');
+const acl = require('../utils/acl');
 
 // some options
 options = {
@@ -21,16 +22,10 @@ const performSomething = (item) => {
   if(filename == 'auth') { 
     route.use('/'+filename, require('./'+file))
   } else {
-    route.use('/'+filename, passport.authenticate('jwt', { session: false}), require('./'+file))
+    route.use('/'+filename, require('./'+file))
   }
 }
 // glob it.
 glob('**/*.js', options, forFiles);
 
 module.exports = route
-
-
-
-
-
-

@@ -5,5 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER
   });
   
+  OrderDetail.associate = models => {
+    OrderDetail.belongsTo(models.products, {
+      foreignKey: 'product_id'
+    }); 
+  };
+
   return OrderDetail;
 };
