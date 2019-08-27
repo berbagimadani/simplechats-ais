@@ -19,7 +19,6 @@ function isIdUnique(id) {
   });
 }
 
-
 route.post('/login', async (req, res) => {
   User.findOne({
       where: {
@@ -37,10 +36,9 @@ route.post('/login', async (req, res) => {
           var expired = 8600 * 30;
           var token = jwt.sign(JSON.parse(JSON.stringify(user)), 'nodeauthsecret', {expiresIn: expired });
           jwt.verify(token, 'nodeauthsecret', function(err, data){
-            console.log(err, data);
+            //console.log(err, data);
           })
 
-          console.log('JWT ' + token);
           // insert or update log token user login
           var user_id = user.id; 
           isIdUnique(user_id).then(isUnique => {
