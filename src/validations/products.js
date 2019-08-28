@@ -9,10 +9,10 @@ const schema = {
       }
     },
     price:{
-      isLength: {
-        errorMessage: 'Price should be at least 3 chars long',
-        options: { min: 3 }
-      }, 
+      isNumeric: {
+        errorMessage: 'Price should be at least 1 numeric long',
+      },
+      trim:{}, escape: {}
     }, 
   }) 
   // define all the other schemas below 
