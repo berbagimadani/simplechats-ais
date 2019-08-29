@@ -1,8 +1,8 @@
 'Order strict'; 
 const Product = require('../models').products;  
-var Service = function(){};
+var ProductService = function(){};
 
-Service.all = function(body, cb){
+ProductService.all = function(body, cb){
   Product.findAll({
     limit: 5,
     order: [['id', 'DESC']]
@@ -24,7 +24,7 @@ Service.all = function(body, cb){
   });
 }
 
-Service.create = async function(body, cb) {
+ProductService.create = async function(body, cb) {
   try { 
     Product
     .create({
@@ -42,4 +42,4 @@ Service.create = async function(body, cb) {
 }
 
 
-module.exports = Service
+module.exports = ProductService

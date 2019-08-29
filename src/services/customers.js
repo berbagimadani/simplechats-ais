@@ -1,13 +1,12 @@
 'Order strict'; 
 const Customer = require('../models').customers;  
-var Service = function(){};
+var CustomerService = function(){};
 
-Service.all = function(body, cb){
+CustomerService.all = function(body, cb){
   Customer.findAll({
-    limit: 5,
+    limit: 50,
     order: [['id', 'DESC']]
   }).then(customers => {
-    
     const resObj = customers.map(customer => {
       //tidy up the order data
       return Object.assign(
@@ -24,7 +23,7 @@ Service.all = function(body, cb){
   });
 }
 
-Service.create = async function(body, cb) {
+CustomerService.create = async function(body, cb) {
   try { 
     Customer
     .create({
@@ -41,5 +40,28 @@ Service.create = async function(body, cb) {
   }
 }
 
+CustomerService.put = async function(body, id, cb) {
+  const updates = body
 
-module.exports = Service
+  try { 
+    Customer.findOne({
+      where: { id: id }
+    })
+    .then(customer => {
+      return customer.update(updates)
+    })
+    .then(updatedCustomer => {
+      cb(null, updatedCustomer)
+    })
+    .catch((error) => { 
+      cb(error);
+    });
+
+    
+  } catch (e) { 
+    cb(e)
+  }
+}
+
+
+module.exports = CustomerService

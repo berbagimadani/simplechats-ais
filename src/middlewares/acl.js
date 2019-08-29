@@ -4,6 +4,8 @@ require('../config/passport')(passport);
 const authAcl = function (req, res, next) {
   var url = req.originalUrl;
   var method = req.method;
+  console.log(url);
+  
   passport.authenticate('jwt', { session : false }, (err, user, info) => {
     if(user==false){
       return res.status(401).json({ status: 'error', code: 'unauthorized' });
@@ -31,6 +33,10 @@ const authAcl = function (req, res, next) {
           method: 'POST'
         },
         {
+          path: '/api/customers',
+          method: 'PUT'
+        },
+        {
           path: '/api/products',
           method: 'GET'
         }
@@ -45,7 +51,7 @@ const authAcl = function (req, res, next) {
       if (users.length > 0) {
         next()
       } else {
-        res.send({ message: 'Insufficient permissions to access resource' })
+        res.status(403).send({ message: 'Insufficient permissions to access resource' })
       }
     }
   })(req, res, next);

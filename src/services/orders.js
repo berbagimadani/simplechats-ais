@@ -4,9 +4,9 @@ const OrderDetail = require('../models').order_details;
 const Customer = require('../models').customers;
 const Product = require('../models').products;
 
-var Service = function(){};
+var OrderService = function(){};
 
-Service.all = function(body, cb){
+OrderService.all = function(body, cb){
   Order.findAll({
     limit: 5,
     order: [['id', 'DESC']],
@@ -42,7 +42,7 @@ Service.all = function(body, cb){
   });
 }
 
-Service.create = async function(body, cb) {
+OrderService.create = async function(body, cb) {
   var sequelize = Order.sequelize;
   let transaction;
   const products = JSON.parse(body.product_ids);
@@ -80,4 +80,4 @@ Service.create = async function(body, cb) {
 }
 
 
-module.exports = Service
+module.exports = OrderService

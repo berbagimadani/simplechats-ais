@@ -10,7 +10,7 @@ const CustomerSchema = require('../../validations/customers');
 route.get('/', async function (req, res) {
   await CustomerService.all(req.body, function(err, result) {
     if(err){
-      res.status(400).send(err);
+      res.status(HttpStatus.BAD_REQUEST).send(err);
     } else {
       res.status(HttpStatus.OK).json(result)
     } 
@@ -23,6 +23,21 @@ route.post('/',
   
   async (req, res) => {
     await CustomerService.create(req.body, function(err, result) {
+      if(err){
+        res.status(HttpStatus.BAD_REQUEST).send(err);
+      } else {
+        res.status(HttpStatus.CREATED).json(result)
+      } 
+    })
+  }
+);
+
+route.put('/:id',
+  
+  middleware(CustomerSchema.POST), 
+  
+  async (req, res) => {
+    await CustomerService.put(req.body, parseInt(req.params.id), function(err, result) {
       if(err){
         res.status(HttpStatus.BAD_REQUEST).send(err);
       } else {
