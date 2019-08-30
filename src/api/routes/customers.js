@@ -47,10 +47,9 @@ route.put('/:id',
   }
 );
 
+/*
 route.put('/:id/product/:catid',
-  
   middleware(CustomerSchema.POST), 
-  
   async (req, res) => {
 
     console.log(req.params)
@@ -63,7 +62,7 @@ route.put('/:id/product/:catid',
       } 
     })
   }
-);
+);*/
 
 
 module.exports = route

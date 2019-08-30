@@ -3,7 +3,7 @@ const HttpStatus = require('http-status-codes');
 const validateToken = require('../../utils/validateToken'); 
 const User = require('../../models').users;    
 
-route.get('/all', async (req, res) => {
+route.get('/', async (req, res) => {
   
   let page = req.query.page || 1;
   let offset = 0;

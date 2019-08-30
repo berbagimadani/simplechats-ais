@@ -5,6 +5,7 @@ const authAcl = function (req, res, next) {
   var url = req._parsedUrl.pathname.replace(/\d+/g, ':id');
   var method = req.method;
   //console.log(url);
+  
   // POST api/v1/vendor/:id/products
   // PUT api/v1/vendor/:id/products/:id
   // PUT api/v1/vendor/:id/categories/:id
