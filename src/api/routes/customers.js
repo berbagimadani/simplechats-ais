@@ -47,5 +47,23 @@ route.put('/:id',
   }
 );
 
+route.put('/:id/product/:catid',
+  
+  middleware(CustomerSchema.POST), 
+  
+  async (req, res) => {
+
+    console.log(req.params)
+
+    await CustomerService.put(req.body, parseInt(req.params.id), function(err, result) {
+      if(err){
+        res.status(HttpStatus.BAD_REQUEST).send(err);
+      } else {
+        res.status(HttpStatus.CREATED).json(result)
+      } 
+    })
+  }
+);
+
 
 module.exports = route
