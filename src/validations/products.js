@@ -6,13 +6,15 @@ const schema = {
       isLength: {
         errorMessage: 'Name should be at least 3 chars long', 
         options: { min: 3 }
-      }
+      },
+      in: ['body']
     },
     price:{
       isNumeric: {
         errorMessage: 'Price should be at least 1 numeric long',
       },
-      trim:{}, escape: {}
+      trim:{}, escape: {},
+      in: ['body']
     }, 
   }) 
   // define all the other schemas below 

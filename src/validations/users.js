@@ -7,7 +7,8 @@ const UserSchema = {
       isLength: {
         errorMessage: 'Password should be at least 7 chars long', 
         options: { min: 7 }
-      }
+      },
+      in: ['body']
     },
     email:{
       isEmail: {
@@ -23,6 +24,7 @@ const UserSchema = {
           //return value + req.body.foo + location + path;
         }
       },
+      in: ['body']
     }
   }) 
   // define all the other schemas below 

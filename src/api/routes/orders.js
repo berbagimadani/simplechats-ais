@@ -20,6 +20,19 @@ route.get('/', async function (req, res) {
 /*
 * @POST orders with transactions
 */
+/**
+ * @typedef OrderEntry
+ * @property {string} customer.required - Title - eg: ID
+ * @property {[integer]} product_ids.required - Tags - eg: [1,2]
+ */
+/** 
+ * @route POST /orders
+ * @group Order 
+ * @param {OrderEntry.model} entry.body
+ * @returns {object} 200 - Success
+ * @returns {object} 400 - Error
+ * @security JWT
+ */
 route.post('/',
   
   middleware(OrderSchema.POST), 

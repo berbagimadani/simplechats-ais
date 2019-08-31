@@ -17,11 +17,24 @@ route.get('/', async (req, res, next) => {
   })
 })
 
-/* 
-* @POST
-*/
+/**
+ * @typedef ProductEntry
+ * @property {string} name.required - Title - eg: Tshirt
+ * @property {string} price.required - Description - eg: 99999
+ */
+/** 
+ * @route POST /products
+ * @group Product 
+ * @param {ProductEntry.model} entry.body
+ * @returns {object} 200 - Success
+ * @returns {object} 400 - Error
+ * @security JWT
+ */
 route.post('/',
-  middleware(Productschema.POST), async (req, res, next) => {
+  
+  middleware(Productschema.POST), 
+
+  async (req, res, next) => {
   await ProductService.create(req.body, function(err, result) {
     if(err){
       res.status(400).send(err);

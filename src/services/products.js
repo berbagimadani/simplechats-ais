@@ -1,10 +1,12 @@
 'Order strict'; 
 const Product = require('../models').products;  
+const filteredBody  = require('../utils/filteredBody');
+
 var ProductService = function(){};
 
 ProductService.all = function(body, cb){
   Product.findAll({
-    limit: 5,
+    limit: 50,
     order: [['id', 'DESC']]
   }).then(products => {
     
@@ -13,6 +15,7 @@ ProductService.all = function(body, cb){
       return Object.assign(
         {},
         { 
+          id: product.id,
           name: product.name,
           price: product.price
         }
@@ -25,11 +28,14 @@ ProductService.all = function(body, cb){
 }
 
 ProductService.create = async function(body, cb) {
+  
+  const { name, price } = (body);
+ 
   try { 
     Product
     .create({
-      name: body.name,
-      price: body.price
+      name: name,
+      price: price
     })
     .then((result) => cb(null, result) )
     .catch((error) => { 

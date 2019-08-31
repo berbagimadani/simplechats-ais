@@ -6,13 +6,18 @@ const schema = {
       isLength: {
         errorMessage: 'Name should be at least 3 chars long', 
         options: { min: 3 }
-      }
+      },
+      in: ['body']
     },
     phone:{
       isLength: {
         errorMessage: 'Phone should be at least 3 chars long',
         options: { min: 3 }
-      }, 
+      },
+      isNumeric: {
+        errorMessage: 'Should be at least 1 numeric long',
+      },
+      in: ['body']
     },
     /*address:{
       isLength: {

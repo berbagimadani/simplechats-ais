@@ -6,7 +6,8 @@ const schema = {
       isNumeric: {
         errorMessage: 'Customer should be at least 1 numeric long',
       },
-      trim:{}, escape: {}
+      trim:{}, escape: {},
+      in: ['body']
     }, 
     product_ids:{
       custom: {
@@ -22,6 +23,7 @@ const schema = {
           return value
         }
       },
+      in: ['body']
     }, 
   }) 
   // define all the other schemas below 
