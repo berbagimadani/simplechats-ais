@@ -27,7 +27,8 @@ function isIdUnique(id) {
 /** 
  * @route POST /auth/login
  * @group Auth
- * @param {AuthEntry.model} entry.body
+ * @param {string} email.formData.required - eg: admin@gmail.com
+ * @param {string} password.formData.required - eg: 
  * @returns {object} 200 - Success
  * @returns {object} 400 - Error
  * @security JWT

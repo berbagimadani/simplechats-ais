@@ -12,32 +12,6 @@ const AuthRoutes = require('./api/auth');
 
 var app = express();
 
-
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: true })
-
-// POST /login gets urlencoded bodies
-app.post('/test', urlencodedParser, function (req, res) {
-
-    console.log(req.body)
-  //res.send('welcome, ' + req.body.username)
-})
-
-app.post('/user-form-post', (req,res) =>{
-
-    //let form = new multiparty.Form();
-    
-    console.log(req.body)
-    /*
-    form.parse(req, function(err, fields, files) {
-        console.log(fields);
-       Object.keys(fields).forEach(function(name) {
-            console.log('got field named ' + name);
-        });
-    });*/
-
- })
-
 // load middleware
 app.use(logger('dev'));
 app.use(express.json());

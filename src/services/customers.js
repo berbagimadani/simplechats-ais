@@ -25,7 +25,6 @@ CustomerService.all = function(body, cb){
 }
 
 CustomerService.create = async function(body, cb) {
-  console.log(body)
   try { 
     Customer
     .create({
