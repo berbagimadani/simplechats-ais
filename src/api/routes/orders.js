@@ -3,10 +3,7 @@ const HttpStatus = require('http-status-codes');
 const middleware = require('../../middlewares/middleware'); 
 const OrderService = require('../../services/orders'); 
 const OrderSchema = require('../../validations/orders');
-
-/*
-* @GET Orders
-*/
+ 
 route.get('/', async function (req, res) {
   await OrderService.all(req.body, function(err, result) {
     if(err){
@@ -17,9 +14,7 @@ route.get('/', async function (req, res) {
   }) 
 });
 
-/*
-* @POST orders with transactions
-*/
+ 
 /**
  * @typedef OrderEntry
  * @property {string} customer.required - Title - eg: ID

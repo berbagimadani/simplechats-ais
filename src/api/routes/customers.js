@@ -33,8 +33,9 @@ route.get('/', async function (req, res) {
  */
 /** 
  * @route POST /customers
- * @group Customer 
- * @param {CustomerEntry.model} entry.body
+ * @group Customer  
+ * @param {string} name.formData
+ * @param {string} phone.formData
  * @returns {object} 200 - Success
  * @returns {object} 400 - Error
  * @security JWT
@@ -43,7 +44,7 @@ route.post('/',
   
   middleware(CustomerSchema.POST), 
   
-  async (req, res) => {
+  async (req, res) => { 
     await CustomerService.create(req.body, function(err, result) {
       if(err){
         res.status(HttpStatus.BAD_REQUEST).send(err);

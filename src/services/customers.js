@@ -12,6 +12,7 @@ CustomerService.all = function(body, cb){
       return Object.assign(
         {},
         { 
+          id: customer.id,
           name: customer.name,
           phone: customer.phone
         }
@@ -24,6 +25,7 @@ CustomerService.all = function(body, cb){
 }
 
 CustomerService.create = async function(body, cb) {
+  console.log(body)
   try { 
     Customer
     .create({

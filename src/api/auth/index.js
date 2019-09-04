@@ -19,6 +19,20 @@ function isIdUnique(id) {
   });
 }
 
+/**
+ * @typedef AuthEntry
+ * @property {string} email.required - Title - eg: Test @gmail.com
+ * @property {string} password.required - Description - eg: 
+ */
+/** 
+ * @route POST /auth/login
+ * @group Auth
+ * @param {AuthEntry.model} entry.body
+ * @returns {object} 200 - Success
+ * @returns {object} 400 - Error
+ * @security JWT
+ */
+
 route.post('/login', async (req, res) => {
   User.findOne({
       where: {

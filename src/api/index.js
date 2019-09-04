@@ -20,10 +20,11 @@ forFiles = function(err,files){
 const performSomething = (item) => {
   var file = item.split('.').slice(0, -1).join('.');
   var filename = item.split("routes/").pop().split('.').slice(0, -1).join('.');
-  //console.log(file)
+  console.log(file)
   route.use('/'+filename, require('./'+file))
 }
 // glob it.
 glob('routes/*.js', options, forFiles);
+glob('cms/*.js', options, forFiles);
 
 module.exports = route
