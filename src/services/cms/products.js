@@ -1,6 +1,6 @@
 'Order strict'; 
-const Product = require('../models').products;  
-const filteredBody  = require('../utils/filteredBody');
+const Product = require('@models').products;
+const filteredBody  = require('@utils/filteredBody');
 
 var ProductService = function(){};
 
@@ -28,9 +28,7 @@ ProductService.all = function(body, cb){
 }
 
 ProductService.create = async function(body, cb) {
-  
   const { name, price } = (body);
- 
   try { 
     Product
     .create({

@@ -1,8 +1,8 @@
 const route = require('express').Router();
 const HttpStatus = require('http-status-codes'); 
-const middleware = require('../../middlewares/middleware'); 
-const OrderService = require('../../services/orders'); 
-const OrderSchema = require('../../validations/orders');
+const middleware = require('@middlewares/middleware'); 
+const OrderService = require('@services/mobile/orders'); 
+const OrderSchema = require('@validations/mobile/orders');
  
 route.get('/', async function (req, res) {
   await OrderService.all(req.body, function(err, result) {

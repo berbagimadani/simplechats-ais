@@ -2,12 +2,12 @@ const route = require('express').Router();
 const HttpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const middleware = require('../../middlewares/middleware');
-require('../../config/passport')(passport);
+const middleware = require('@middlewares/middleware');
+require('@config/passport')(passport);
 
-const User = require('../../models').users;   
-const UserSchema = require('../../validations/users');
-const UserToken = require('../../models').user_tokens;   
+const User = require('@models').users;   
+const UserSchema = require('@validations/mobile/users');
+const UserToken = require('@models').user_tokens;   
 
 function isIdUnique(id) {
   return UserToken.count({ where: { user_id: id } })

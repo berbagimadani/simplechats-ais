@@ -1,7 +1,7 @@
 const route = require('express').Router();
 const HttpStatus = require('http-status-codes');
-const validateToken = require('../../utils/validateToken'); 
-const User = require('../../models').users;    
+const validateToken = require('@utils/validateToken'); 
+const User = require('@models').users;    
 
 route.get('/', async (req, res) => {
   

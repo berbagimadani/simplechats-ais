@@ -1,8 +1,8 @@
 'Order strict'; 
-const Order = require('../models').orders; 
-const OrderDetail = require('../models').order_details;
-const Customer = require('../models').customers;
-const Product = require('../models').products;
+const Order = require('@models').orders; 
+const OrderDetail = require('@models').order_details;
+const Customer = require('@models').customers;
+const Product = require('@models').products;
 
 var OrderService = function(){};
 

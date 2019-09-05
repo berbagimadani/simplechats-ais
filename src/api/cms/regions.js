@@ -1,12 +1,10 @@
 const route = require('express').Router();
-const HttpStatus = require('http-status-codes');  
-//const middleware = require('@middlewares/middleware');
-const ProductService = require('@services/cms/products');   
-//const Productschema = require('@validations/products');
+const HttpStatus = require('http-status-codes');   
+const ProductService = require('@services/cms/products');    
 
 /**
- * GET Product
- * @route GET /cms/products
+ * GET Region
+ * @route GET /cms/regions
  * @group CMS Product 
  * @returns {object} 200 - Success
  * @returns {object} 400 - Error

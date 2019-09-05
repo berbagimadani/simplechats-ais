@@ -1,5 +1,6 @@
 'Order strict'; 
-const Customer = require('../models').customers;  
+const Customer = require('@models').customers;
+  
 var CustomerService = function(){};
 
 CustomerService.all = function(body, cb){

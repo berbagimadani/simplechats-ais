@@ -1,8 +1,8 @@
 const route = require('express').Router();
 const HttpStatus = require('http-status-codes');  
-const middleware = require('../../middlewares/middleware');
-const ProductService = require('../../services/products');   
-const Productschema = require('../../validations/products');
+const middleware = require('@middlewares/middleware');
+const ProductService = require('@services/mobile/products');   
+const Productschema = require('@validations/mobile/products');
 
 /* 
 * @GET

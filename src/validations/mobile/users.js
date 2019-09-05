@@ -1,5 +1,5 @@
 const { checkSchema } = require('express-validator');
-const users = require('../models').users;  
+const users = require('@models').users;  
 
 const UserSchema = { 
   POST: checkSchema({

@@ -5,12 +5,16 @@ const helmet  = require('helmet');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv'); 
 const path = require('path'); 
-const multiparty = require('multiparty');
+//const multiparty = require('multiparty');
 
-const ApiRoutes = require('./api');
-const AuthRoutes = require('./api/auth');  
+// global variable
+require('module-alias/register');
+global.__base = __dirname + '/';
 
 var app = express();
+
+const ApiRoutes = require('./api');
+const AuthRoutes = require('./api/auth'); 
 
 // load middleware
 app.use(logger('dev'));
@@ -28,31 +32,67 @@ app.use('/api/cms/', ApiRoutes)
 
 let options = {
   swaggerDefinition: {
-      info: {
-        description: 'This is a sample server',
+    info: {
+        description: 'Mobile API',
         title: 'Swagger',
         version: '2.0.0',
-      },
-      host: 'localhost:3001',
-      basePath: '/api',
-      produces: [
+    },
+        host: 'localhost:3001',
+        basePath: '/api',
+        produces: [
         "application/json",
         "application/xml"
-      ],
-      schemes: ['http'],
-  securityDefinitions: {
+    ],
+    schemes: ['http'],
+    securityDefinitions: {
         JWT: {
             type: 'apiKey',
             in: 'header',
             name: 'Authorization',
             description: "",
         }
-      }
+    }
   },
   basedir: __dirname, //app absolute path
-  files: ['./api/cms/*.js', './api/auth/*.js', './api/routes/*.js'] //Path to the API handle folder
+  files: ['./api/auth/*.js', './api/routes/*.js'], //Path to the API handle folder
+  route: {
+      url: '/api-docs',
+      docs: '/api-docs.json'
+  }
 };
 expressSwagger(options)
+
+let option_cms = {
+    swaggerDefinition: {
+      info: {
+          description: 'CMS API',
+          title: 'Swagger',
+          version: '2.0.0',
+      },
+          host: 'localhost:3001',
+          basePath: '/api',
+          produces: [
+          "application/json",
+          "application/xml"
+      ],
+      schemes: ['http'],
+      securityDefinitions: {
+          JWT: {
+              type: 'apiKey',
+              in: 'header',
+              name: 'Authorization',
+              description: "",
+          }
+      }
+    },
+    basedir: __dirname, //app absolute path
+    files: ['./api/cms/*.js'], //Path to the API handle folder
+    route: {
+        url: '/cms-docs',
+        docs: '/cms-docs.json'
+    }
+  };
+expressSwagger(option_cms)
 
 dotenv.config();
 const hostname = process.env.HOSTNAME;
