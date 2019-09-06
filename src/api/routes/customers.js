@@ -4,9 +4,11 @@ const middleware = require('@middlewares/middleware');
 const CustomerService = require('@services/mobile/customers'); 
 const CustomerSchema = require('@validations/mobile/customers');
 
-/*
-  @GET Customers 
-*/
+/**
+ * @typedef CustomerEntry
+ * @property {string} name.required - Title - eg: Test entry
+ * @property {string} phone.required - Description - eg: 9999999 
+ */
 
 /**
  * GET Customer
@@ -26,11 +28,7 @@ route.get('/', async function (req, res) {
   }) 
 })
 
-/**
- * @typedef CustomerEntry
- * @property {string} name.required - Title - eg: Test entry
- * @property {string} phone.required - Description - eg: 9999999 
- */
+
 /** 
  * @route POST /customers
  * @group Customer  
