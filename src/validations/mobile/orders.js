@@ -2,14 +2,28 @@ const { checkSchema } = require('express-validator');
 
 const schema = { 
   POST: checkSchema({
-    customer:{
+    customer_id:{
       isNumeric: {
         errorMessage: 'Customer should be at least 1 numeric long',
       },
       trim:{}, escape: {},
       in: ['body']
     }, 
-    product_ids:{
+    product_id:{
+      isNumeric: {
+        errorMessage: 'Product should be at least 1 numeric long',
+      },
+      trim:{}, escape: {},
+      in: ['body']
+    }, 
+    qty:{
+      isNumeric: {
+        errorMessage: 'Qty should be at least 1 numeric long',
+      },
+      trim:{}, escape: {},
+      in: ['body']
+    }, 
+    /*product_ids:{
       custom: {
         options: (value, { req, location, path }) => {
           var array_product = JSON.parse(value);
@@ -24,7 +38,7 @@ const schema = {
         }
       },
       in: ['body']
-    }, 
+    }*/
   }) 
   // define all the other schemas below 
 }; 

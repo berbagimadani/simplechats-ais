@@ -4,9 +4,14 @@ const middleware = require('@middlewares/middleware');
 const ProductService = require('@services/mobile/products');   
 const Productschema = require('@validations/mobile/products');
 
-/* 
-* @GET
-*/
+/**
+ * GET Product
+ * @route GET /products
+ * @group Product 
+ * @returns {object} 200 - Success
+ * @returns {object} 400 - Error
+ * @security JWT
+ */
 route.get('/', async (req, res, next) => {
   await ProductService.all(req.body, function(err, result) {
     if(err){

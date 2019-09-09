@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       //allowNull: false
     },
     price: DataTypes.INTEGER,
+    stock: DataTypes.INTEGER,
   });
   return Product;
 };

@@ -20,7 +20,7 @@ forFiles = function(err,files){
 const performSomething = (item) => {
   var file = item.split('.').slice(0, -1).join('.');
   var filename = item.split("routes/").pop().split('.').slice(0, -1).join('.');
-  console.log(file)
+  console.log(file+ '===' + filename)
   route.use('/'+filename, require('./'+file))
 }
 // glob it.
