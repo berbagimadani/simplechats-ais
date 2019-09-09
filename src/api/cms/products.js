@@ -7,7 +7,7 @@ const ProductService = require('@services/cms/products');
 /**
  * GET Product
  * @route GET /products
- * @group CMS Product 
+ * @group Product 
  * @returns {object} 200 - Success
  * @returns {object} 400 - Error
  * @security JWT
