@@ -54,7 +54,7 @@ let options = {
     }
   },
   basedir: __dirname, //app absolute path
-  files: ['./api/auth/*.js', './api/routes/*.js'], //Path to the API handle folder
+  files: ['./api/auth/*.js', './api/mobile/*.js'], //Path to the API handle folder
   route: {
       url: '/api-docs',
       docs: '/api-docs.json'
@@ -70,7 +70,7 @@ let option_cms = {
           version: '2.0.0',
       },
           host: 'localhost:3001',
-          basePath: '/api',
+          basePath: '/api/cms',
           produces: [
           "application/json",
           "application/xml"

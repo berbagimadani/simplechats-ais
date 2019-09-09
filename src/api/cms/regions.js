@@ -4,7 +4,7 @@ const ProductService = require('@services/cms/products');
 
 /**
  * GET Region
- * @route GET /cms/regions
+ * @route GET /regions
  * @group CMS Product 
  * @returns {object} 200 - Success
  * @returns {object} 400 - Error

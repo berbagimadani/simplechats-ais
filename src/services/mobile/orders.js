@@ -92,6 +92,8 @@ OrderService.create = async function(body, cb) {
   }
 }
 
+
+// multiple product
 OrderService.createOrderCheckStock = async function(body, cb) {
   var sequelize = Order.sequelize;
   let transaction;
