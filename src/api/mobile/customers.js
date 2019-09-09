@@ -1,14 +1,35 @@
 const route = require('express').Router();
 const HttpStatus = require('http-status-codes'); 
-const middleware = require('@middlewares/middleware');
+const middleware = require('@middlewares/middleware'); 
 const CustomerService = require('@services/mobile/customers'); 
 const CustomerSchema = require('@validations/mobile/customers');
+
+const { sentVerificationAccount, sentVerifiedOrder } = require('@utils/sentNotifications');
 
 /**
  * @typedef CustomerEntry
  * @property {string} name.required - Title - eg: Test entry
  * @property {string} phone.required - Description - eg: 9999999 
  */
+
+ /**
+ * POST Email
+ * @route POST /customers/email
+ * @group Email 
+ * @param {string} email.formData
+ * @returns {object} 200 - Success
+ * @returns {object} 400 - Error
+ * @security JWT
+ */
+route.post('/email', async function (req, res) {
+
+  var email = req.body.email;
+  var data = [];
+  await sentVerificationAccount(email, data);  
+  //await sentVerifiedOrder(email, data);
+
+})
+
 
 /**
  * GET Customer
