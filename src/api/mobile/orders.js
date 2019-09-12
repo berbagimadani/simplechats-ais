@@ -3,7 +3,8 @@ const HttpStatus = require('http-status-codes');
 const middleware = require('@middlewares/middleware'); 
 const OrderService = require('@services/mobile/orders'); 
 const OrderSchema = require('@validations/mobile/orders');
- 
+
+
 /** 
  * @route GET /orders
  * @group Order  
@@ -33,17 +34,18 @@ route.get('/', async function (req, res) {
  */
 route.post('/',
   
-  middleware(OrderSchema.POST), 
+  //middleware(OrderSchema.POST), 
 
   async (req, res, next) => {
-    //console.log(req);
-    await OrderService.create(req.body, function(err, result) {
+    
+    await OrderService.test(req.body, function(err, result) {
       if(err){
         res.status(HttpStatus.BAD_REQUEST).send(err);
       } else {
         res.status(HttpStatus.CREATED).json(result)
       } 
-    })
+    }) 
+
   }
 );
 

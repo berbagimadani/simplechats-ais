@@ -4,11 +4,18 @@ const doTest = async (idx) => {
   const { data } = await axios.post(
     'http://localhost:3001/api/orders',
     {
-      
-      customer: 39,
-      product_ids: '[1,2]',
-      qty: '[3,5]'
-        
+      items: [
+        {
+          id: 4,
+          qty: 5, 
+          customer_id: 39
+        },
+        {
+          id: 3,
+          qty: 10,
+          customer_id: 40
+        }
+      ]
     },
     {
       headers: {
@@ -21,3 +28,4 @@ const doTest = async (idx) => {
 }
 
 Promise.all([doTest(1), doTest(2), doTest(3), doTest(4)])
+//Promise.all([doTest(1)])
