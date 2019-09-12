@@ -101,7 +101,7 @@ queue.process(async (field) => {
 
 orderStock.tes = function(body, cb){
 
-queue.add({body: body});
+  queue.add({body: body});
   //queue.add({body: body}, {repeat: {cron: '* * * * *'}});
   queue.on('waiting', function(jobId){
     console.log(jobId)
