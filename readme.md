@@ -1,14 +1,30 @@
-#### open .env 
-1. setup database 
-2. setup PORT
+# Node Js Structure
+Don't put logic in the controller
 
-#### cd src 
-1. run sequelize db:create 
-2. run sequelize db:migrate
+### Installation
+Edit .env
+  - insert database name
+  - setup PORT
+ 
 
-#### cd ../ (back to root) 
-run nodemon src/server.js
+```run
+$ cd src
+$ run sequelize db:create 
+$ run sequelize db:migrate
+$ cd ../
+$ run nodemon src/server.js
+```
+### Swagger API
 
-#### swagger API 
-localhost:3000/api-docs 
-localhost:3000/cms-docs
+| Module | url |
+| ------ | ------ |
+| CMS | <localhost:3000/cms-docs>
+| API | <localhost:3000/api-docs> | 
+
+
+```
+License
+MIT
+Ade Iskandar
+ 
+

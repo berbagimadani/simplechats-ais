@@ -12,7 +12,8 @@
     "@services": "src/services",
     "@validations": "src/validations",
     "@middlewares": "src/middlewares",
-    "@config": "src/config"
+    "@config": "src/config",
+    "@jobs": "src/jobs"
   },
   "dependencies": {
     "@hapi/hapi": "^18.3.2",

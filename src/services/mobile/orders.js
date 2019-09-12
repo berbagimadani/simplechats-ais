@@ -3,8 +3,11 @@ const Order = require('@models').orders;
 const OrderDetail = require('@models').order_details;
 const Customer = require('@models').customers;
 const Product = require('@models').products;
+const orderStock = require('@jobs/orderStock');
+
 var async = require('async');
 var Bull = require('bull');
+const queue = new Bull('my-first-queue');
 
 var OrderService = function(){};
 
@@ -43,134 +46,48 @@ OrderService.all = function(body, cb){
     cb(error)
   });
 }
-
 /*
-const doSomething = function(){
-  return 4*2
-}
-const myFirstQueue = new Bull('my-first-queue');
-
-myFirstQueue.process(async (job, data) => {
-  
-  let progress = 0;
-  for(i = 0; i < 100; i++){
-    await doSomething(data);
-    progress += 10;
-    job.progress(progress);
-  }
-  
-});*/
-
-
-const queue = new Bull('my-first-queue');
-
 queue.process(async (field) => {
+  var sequelize = Order.sequelize; 
+  let transaction;
   var body = field.data.body;
   
-  let done = {
-    data: []
-  }
-
-  let outOfStock = {
-    bool: false,
-    data: []
-  }
-  
-
-  let allProduct = await Product.findAll({
-    where: {
-      id: body.items.map(el => el.id)
-    },
-    attributes: ['id', 'stock']
-  })
-
-  
-  allProduct = allProduct.map(el => {
-    if (el.stock < body.items.find(inner => inner.id === el.id).qty) {
-      outOfStock.bool = true
-      outOfStock.data.push(el)
-    }
-    return {
-      id: el.id,
-      stock: el.stock
-    }
-  })
-
-  //validation
-  if (body.items.length > allProduct.length) {
-    const notFound = req.items.length.filter(el =>
-      allProduct.find(inner => inner.id === el.id)
-    )
-    const error = {
-      errorMsg: 'Product not found',
-      data: notFound
-    } 
-    done.data.push(error); 
-
-  }
-  if (outOfStock.bool) {
-    done.data.push({
-      errorMsg: 'Stuff out of Stock',
-      data: outOfStock.data
-    });
-  }
-  await Promise.all(
-    allProduct.map(el => {
-      return Product.update(
-        {
-          stock:
-            el.stock - body.items.find(inner => inner.id === el.id).qty
-        },
-        {
-          where: {
-            id: el.id
-          }
-        }
-      )
-    })
-  )
-  //console.log('ok')
-  done.data.push({isOk:true});
-  console.log(done)
-  
-})
-
-OrderService.test = async function(body, cb){ 
-  var sequelize = Order.sequelize;
-  const product_id = body.product_id;
-  const qty = body.qty;
-  let transaction;
-
-  queue.add({body: body});
-
-  /*
   try {
 
     transaction = await sequelize.transaction(); 
-    
+
+    let done = {
+      data: []
+    }  
     let outOfStock = {
       bool: false,
       data: []
     }
-    
-    let allProduct = await Product.findAll({
+
+    let allProductx = await Product.findAll({
       where: {
         id: body.items.map(el => el.id)
       },
       attributes: ['id', 'stock']
     })
     
-    allProduct = allProduct.map(el => {
+    allProduct = allProductx.map(el => {
       if (el.stock < body.items.find(inner => inner.id === el.id).qty) {
         outOfStock.bool = true
         outOfStock.data.push(el)
-      }
-      return {
-        id: el.id,
-        stock: el.stock
+
+        return {
+          id: null,
+          stock: el.stock
+        }
+      } else {
+        return {
+          id: el.id,
+          stock: el.stock
+        }
       }
     })
-    
+
     //validation
     if (body.items.length > allProduct.length) {
       const notFound = req.items.length.filter(el =>
@@ -180,20 +97,24 @@ OrderService.test = async function(body, cb){
         errorMsg: 'Product not found',
         data: notFound
       } 
-      cb(null, error);
+      done.data.push(error); 
+
     }
     if (outOfStock.bool) {
-      cb(null, {
+      done.data.push({
         errorMsg: 'Stuff out of Stock',
-        data: outOfStock.data
-      });
+        data: outOfStock.data.map(el => el.stock).toString()
+      });  
+      console.log(outOfStock.data.map(el => el.id))
     }
     await Promise.all(
       allProduct.map(el => {
+        console.log(el)
+        if(el.id!=null){
         return Product.update(
           {
             stock:
-              el.stock - body.items.find(inner => inner.id === el.id).qty
+            el.stock - body.items.find(inner => inner.id === el.id).qty
           },
           {
             where: {
@@ -202,10 +123,10 @@ OrderService.test = async function(body, cb){
             transaction
           }
         )
+        }
       })
-    )
-    
-    cb(null, {isOk:true});
+    ) 
+    //done.data.push({isOk:true}); 
     await transaction.commit();
 
   } catch(e) {
@@ -213,7 +134,27 @@ OrderService.test = async function(body, cb){
     //e.status = HttpStatus.BAD_REQUEST;
     //cb(e)
   }
-  */
+})
+*/
+
+OrderService.test = async function(body, cb){ 
+  var sequelize = Order.sequelize;
+  const product_id = body.product_id;
+  const qty = body.qty;
+  let transaction;
+  /*
+  queue.add({body: body});
+  //queue.add({body: body}, {repeat: {cron: '* * * * *'}});
+  queue.on('waiting', function(jobId){
+    console.log(jobId)
+  });
+  queue.on('completed', function(job){
+    console.log(`Job ${job.id} completed`);
+    job.remove();
+  })*/
+
+  await orderStock.tes(body, function(err, result) { }) 
+
 }
 
 OrderService.create = async function(body, cb) {
@@ -226,19 +167,7 @@ OrderService.create = async function(body, cb) {
   try { 
 
     transaction = await sequelize.transaction();    
-    
-    let outOfStock = {
-      bool: false,
-      data: []
-    }
-
-    let allProduct = await Product.findAll({
-      where: {
-        id: product_id,
-      },
-      attributes: ['id', 'name','price', 'stock']
-    });  
-
+ 
     const resObj = allProduct.map(el => {
       return (
       { 
@@ -248,43 +177,7 @@ OrderService.create = async function(body, cb) {
           qty: qty ? qty : 0
         }
       )
-    }) 
-    /*allProduct = allProduct.map(el => {
-      if (el.stock < qty) {
-        outOfStock.bool = true
-        outOfStock.data.push(el)
-      }
-      console.log(el.stock +'???????'+ qty)
-      return {
-        id: el.id,
-        stock: el.stock
-      }
-    }); */
-
-    /*if(outOfStock.bool){ 
-      cb(null, {
-        errorMsg: 'Stuff out of Stock',
-        data: outOfStock.data
-      })
-    }*/
-    await Promise.all(
-      allProduct.map(el => {
-        outOfStock.data.push(el)
-        return Product.update(
-          {
-            stock: el.stock - qty
-          },
-          {
-            where: {
-              id: el.id
-            },
-            transaction
-          }
-        )
-      })
-    );
-    cb(null, {isOk:outOfStock.data});
-    
+    })  
     /*await Order.create({
       customer_id: customer_id,
       order_details: resObj
