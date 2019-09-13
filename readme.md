@@ -1,5 +1,4 @@
 # Node Js Structure
-Don't put logic in the controller
 
 ### Installation
 Edit .env
@@ -18,7 +17,6 @@ $ run nodemon src/server.js
 
 | Module | url |
 | ------ | ------ |
-| CMS | <localhost:3000/cms-docs>
 | API | <localhost:3000/api-docs> | 
 
 
