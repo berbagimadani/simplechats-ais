@@ -4,7 +4,7 @@ const glob = require('glob');
 * authAcl ( authentication with access control routes )
 * authPassport ( only authentication )
 */
-const { authAcl, authPassport } = require('../middlewares/acl');
+const { authAcl, authPassport } = require('@middlewares/acl');
 
 // some options
 options = {
@@ -19,12 +19,13 @@ forFiles = function(err,files){
 };
 const performSomething = (item) => {
   var file = item.split('.').slice(0, -1).join('.');
-  var filename = item.split("mobile/").pop().split('.').slice(0, -1).join('.');
-  //console.log(file+ '===' + filename)
-  route.use('/'+filename, require('./'+file))
+  var filename = item.split("/").pop().split('.').slice(0, -1).join('.'); // remove tanda "/" 
+  if(file!='index'){ 
+    route.use('/'+filename, require('./'+file))
+  }
 }
 // glob it.
-glob('mobile/*.js', options, forFiles);
-glob('cms/*.js', options, forFiles);
+glob('*.js', options, forFiles);
+//glob('cms/*.js', options, forFiles);
 
 module.exports = route

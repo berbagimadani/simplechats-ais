@@ -13,8 +13,16 @@ global.__base = __dirname + '/';
 
 var app = express();
 
-const ApiRoutes = require('./api');
-const AuthRoutes = require('./api/auth'); 
+const ApiRoutes = require('./controllers/mobile');
+const AuthRoutes = require('./controllers/auth'); 
+const AdminRoutes = require('./controllers/admin'); 
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+// secure
+app.use(helmet())
 
 // load middleware
 app.use(logger('dev'));
@@ -28,7 +36,7 @@ const expressSwagger = require('express-swagger-generator')(app);
 
 app.use('/api', ApiRoutes);
 app.use('/api/auth', AuthRoutes);
-app.use('/api/cms/', ApiRoutes)
+app.use('/admin/', AdminRoutes);
 
 let options = {
   swaggerDefinition: {
@@ -54,7 +62,7 @@ let options = {
     }
   },
   basedir: __dirname, //app absolute path
-  files: ['./api/auth/*.js', './api/mobile/*.js'], //Path to the API handle folder
+  files: ['./controllers/auth/*.js', './controllers/mobile/*.js'], //Path to the API handle folder
   route: {
       url: '/api-docs',
       docs: '/api-docs.json'

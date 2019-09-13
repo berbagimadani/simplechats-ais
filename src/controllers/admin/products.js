@@ -1,15 +1,17 @@
-'Order strict'; 
+const route = require('express').Router();
+const HttpStatus = require('http-status-codes');  
+//const middleware = require('@middlewares/middleware');  
+//const Productschema = require('@validations/products');
 const Product = require('@models').products;
 const filteredBody  = require('@utils/filteredBody');
 
-var ProductService = function(){};
+route.get('/', async (req, res, next) => {
 
-ProductService.all = function(body, cb){
   Product.findAll({
     limit: 50,
     order: [['id', 'DESC']]
   }).then(products => {
-    
+
     const resObj = products.map(product => {
       //tidy up the order data
       return Object.assign(
@@ -21,29 +23,16 @@ ProductService.all = function(body, cb){
         }
       )
     }) 
-    cb(null,resObj)
+    res.render('products/index', {
+      result: resObj
+    }); 
   }).catch((error) => {  
-    cb(error)
-  });
-}
-
-ProductService.create = async function(body, cb) {
-  const { name, price } = (body);
-  try { 
-    Product
-    .create({
-      name: name,
-      price: price
-    })
-    .then((result) => cb(null, result) )
-    .catch((error) => { 
-      cb(error);
+    res.render('products/index', {
+      errors: error
     });
-    
-  } catch (e) { 
-    cb(e)
-  }
-}
+  });
+ 
+})
+ 
 
-
-module.exports = ProductService
+module.exports = route

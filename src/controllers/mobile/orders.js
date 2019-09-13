@@ -38,7 +38,7 @@ route.post('/',
 
   async (req, res, next) => {
     
-    await OrderService.test(req.body, function(err, result) {
+    await OrderService.create(req.body, function(err, result) {
       if(err){
         res.status(HttpStatus.BAD_REQUEST).send(err);
       } else {

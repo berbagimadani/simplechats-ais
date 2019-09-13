@@ -2,8 +2,7 @@
 const Order = require('@models').orders; 
 const OrderDetail = require('@models').order_details;
 const Customer = require('@models').customers;
-const Product = require('@models').products;
-const orderStock = require('@jobs/orderStock');
+const Product = require('@models').products; 
 
 var OrderService = function(){};
 
@@ -43,14 +42,6 @@ OrderService.all = function(body, cb){
   });
 }
  
-/*
-Job Queue
-*/
-OrderService.test = async function(body, cb){ 
-  await orderStock.tes(body, function(err, result) { }) 
-}
-// end
-
 OrderService.create = async function(body, cb) {
   var sequelize = Order.sequelize;
   let transaction;
