@@ -20,9 +20,3 @@ $ run nodemon src/server.js
 | API | <localhost:3000/api-docs> | 
 
 
-```
-License
-MIT
-Ade Iskandar
- 
-
