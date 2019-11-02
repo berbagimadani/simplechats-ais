@@ -21,5 +21,6 @@ redisClient.on('ready',function() {
 redisClient.on('error',function() {
  console.log("Error in Redis");
 });
+
  
 module.exports  = redisClient

@@ -1,8 +1,14 @@
 const route = require('express').Router();
 const HttpStatus = require('http-status-codes');
+const dotenv = require('dotenv'); 
 var redisClient = require('../../config/redis.js'); 
+
+dotenv.config();
+const hostname = process.env.HOSTNAME;
+const port = process.env.PORT;
+
 const io = require('socket.io-client');
-const socket = io.connect('http://localhost:3005'); 
+const socket = io.connect('http://'+hostname+':'+port); 
 
 /**
  * API for sending a message Just send one parameter string for message After sending should be get response REST
@@ -32,7 +38,6 @@ route.post('/', async (req, res) => {
  */
 route.get('/', async (req, res) => {
   var chat_messages = [];
-  
   redisClient.get('chat_app_messages', function (err, reply) {
     if (reply) {
       chat_messages = JSON.parse(reply);
