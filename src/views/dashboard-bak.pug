@@ -1,0 +1,26 @@
+extends layouts/_layout.pug
+
+block variables
+	- var activePage = 'dashboard'
+	- var activeGroup = 'none'
+
+block content 
+	.row
+		.col-md-12
+			.tile
+				h3.tile-title Chat
+				.messanger
+					.messages
+						ul.messages 
+					.sender
+						input(type="text",placeholder="Send Message")
+						button.btn.btn-primary(type="button")
+							i.fa.fa-lg.fa-fw.fa-paper-plane
+
+block specific-js 
+	script.
+		socket = io();
+		socket.on('update messages', function(message){
+			var result = $("<div class='message'>").text(message);
+			$("ul.messages").append(result);
+		}); 

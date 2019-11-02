@@ -1,0 +1,23 @@
+extends layouts/_layout.pug
+ 
+
+block content 
+	.row
+		.col-md-12
+			.tile
+				h3.tile-title Display Chat 
+					small.status
+				.messanger
+					.messages
+						ul.messages  
+
+block specific-js 
+	script.
+		socket = io();
+		socket.on('update messages', function(message){
+			var result = $("<div class='message'>").text(message);
+			$("ul.messages").append(result);
+		}); 
+		socket.on('user', function(message){ 
+			$(".status").html(message);
+		}); 

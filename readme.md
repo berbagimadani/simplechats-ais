@@ -1,22 +1,15 @@
-# Node Js Structure
+# Simple chat test
 
 ### Installation
-Edit .env
-  - insert database name
+Edit .env 
   - setup PORT
- 
-
-```run
-$ cd src
-$ run sequelize db:create 
-$ run sequelize db:migrate
-$ cd ../
-$ run nodemon src/server.js
+  
+$ run npm start
 ```
 ### Swagger API
 
 | Module | url |
 | ------ | ------ |
-| API | <localhost:3000/api-docs> | 
+| API | <localhost:3005/api-docs> | 
 
 
