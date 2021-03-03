@@ -18,7 +18,7 @@
     "http-status-codes": "^1.4.0",
     "mongodb": "^3.3.3",
     "morgan": "~1.9.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "redis": "^2.8.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
